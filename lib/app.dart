@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:wan_android_flutter/pages/home_page.dart';
+import 'package:wan_android_flutter/route/routes.dart';
 
 /// 设计尺寸
 Size get designSize {
@@ -34,7 +35,9 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const HomePage(),
+          // home: const HomePage(),
+          onGenerateRoute: Routes.generateRoute,
+          initialRoute: RoutePath.home,
         );
       },
     ));

@@ -13,11 +13,27 @@ class WebViewPage extends StatefulWidget {
 }
 
 class _WebViewPageState extends State<WebViewPage> {
+  String? name;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //组件初始化完成后 再 获取路由参数
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      var map = ModalRoute.of(context)?.settings.arguments;
+      if (map is Map) {
+        name = map["name"];
+        setState(() {});//更新UI
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(name ?? widget.title),
       ),
       body: SafeArea(
         child: Container(

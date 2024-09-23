@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:wan_android_flutter/pages/web_view_page.dart';
+import 'package:wan_android_flutter/route/routes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -57,9 +58,13 @@ class _HomePageState extends State<HomePage> {
     // 控件增加点击事件，需要用 InkWell 或 GestureDetector 进行包裹
     // InkWell 点击会有水波纹，下面的默认没有，
     return GestureDetector(onTap: (){
-      Navigator.push(context, MaterialPageRoute(builder: (context){
-        return WebViewPage(title: "首页传过来的值");
-      }));
+      // Navigator.push(context, MaterialPageRoute(builder: (context){
+      //   return WebViewPage(title: "首页传过来的值");
+      // }));
+      // Navigator.pushNamed(context, RoutePath.webView);
+      Navigator.pushNamed(context, RoutePath.webView,arguments: {
+        "name":"使用路由传值"
+      });
     },child: Container(
         margin: EdgeInsets.only(top: 5.h, bottom: 5.h, left: 10.w, right: 10.w),
         padding: EdgeInsets.only(top: 15.h, bottom: 15.h, left: 10.w, right: 10.w),
