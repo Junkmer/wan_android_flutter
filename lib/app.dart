@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    //toast 提示必须为 app的顶层组件
+    //toast提示 必须为 app的顶层组件
     return OKToast(
         //屏幕适配父组件组件
         child: ScreenUtilInit(
