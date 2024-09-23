@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
+import 'package:wan_android_flutter/datas/home_banner_data.dart';
 import 'package:wan_android_flutter/pages/home/home_vm.dart';
 import 'package:wan_android_flutter/route/routes.dart';
 
@@ -15,12 +18,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<BannerItemData>? bannerList;
 
   @override
   void initState() {
     super.initState();
 
-    HomeViewModel.getBanner();
+    initBannerData();
+  }
+
+  void initBannerData() async{
+    bannerList = await HomeViewModel.getBanner();
+    setState(() {
+
+    });
   }
 
   @override
@@ -55,7 +66,7 @@ class _HomePageState extends State<HomePage> {
         autoplay: true,
         pagination: const SwiperPagination(),
         control: const SwiperControl(),
-        itemCount: 3,
+        itemCount: bannerList?.length ?? 0,
         itemBuilder: (context, index) {
           return Container(
             height: 150.h,
@@ -64,6 +75,8 @@ class _HomePageState extends State<HomePage> {
                 : index == 1
                     ? Colors.lightGreen
                     : Colors.brown,
+            child: Image.network(bannerList?[index].imagePath ?? "",
+            fit: BoxFit.fitWidth,),
           );
         },
       ),
@@ -107,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                     "作者",
                     style: TextStyle(color: Colors.black),
                   ),
-                  Expanded(child: SizedBox()),
+                  const Expanded(child: SizedBox()),
                   Text("2024-08.26 13:30", style: TextStyle(color: Colors.black)),
                   SizedBox(width: 10.w),
                   Text("置顶", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold))
@@ -127,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                     "分类",
                     style: TextStyle(color: Colors.green, fontSize: 12.sp),
                   ),
-                  Expanded(child: SizedBox()),
+                  const Expanded(child: SizedBox()),
                   Image.asset("assets/images/collect_un_select.png", width: 20.r, height: 20.r)
                 ],
               )
