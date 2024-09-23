@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
-import 'package:wan_android_flutter/pages/web_view_page.dart';
+import 'package:wan_android_flutter/pages/home/home_vm.dart';
 import 'package:wan_android_flutter/route/routes.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,6 +15,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    HomeViewModel.getBanner();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

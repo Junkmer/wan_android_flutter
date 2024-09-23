@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:wan_android_flutter/pages/home_page.dart';
+import 'package:wan_android_flutter/pages/home/home_page.dart';
 import 'package:wan_android_flutter/route/routes.dart';
 
 /// 设计尺寸

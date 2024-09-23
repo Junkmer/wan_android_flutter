@@ -41,6 +41,8 @@ dependencies:
   oktoast: ^3.4.0
   # 屏幕适配
   flutter_screenutil: ^5.9.3
+  # 网络请求
+  dio: ^5.7.0
 
 dev_dependencies:
   flutter_test:
