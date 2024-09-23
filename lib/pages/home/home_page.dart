@@ -1,12 +1,16 @@
 import 'dart:ffi';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
+import 'package:provider/provider.dart';
 import 'package:wan_android_flutter/datas/home_banner_data.dart';
 import 'package:wan_android_flutter/pages/home/home_vm.dart';
 import 'package:wan_android_flutter/route/routes.dart';
+
+import '../../datas/home_list_data.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,39 +22,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<BannerItemData>? bannerList;
+  HomeViewModel viewModel = HomeViewModel();
 
   @override
   void initState() {
     super.initState();
-
-    initBannerData();
-  }
-
-  void initBannerData() async{
-    bannerList = await HomeViewModel.getBanner();
-    setState(() {
-
-    });
+    viewModel.getBanner();
+    viewModel.getHomeList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(//实现 banner 和 listview 一起滑动
-          child: Column(
-            children: [
-              _banner(),
-              ListView.builder(
-                shrinkWrap: true,//让dart 内部自行计算 listview 高度
-                physics: NeverScrollableScrollPhysics(),//禁用 listview自带的滑动事件，防止与 scrollView 冲突
-                itemBuilder: (context, index) {
-                  return _listItemView();
-                },
-                itemCount: 10,
-              )
-            ],
+    return ChangeNotifierProvider<HomeViewModel>(
+      create: (context) {
+        return viewModel;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            //实现 banner 和 listview 一起滑动
+            child: Column(
+              children: [_banner(), _homeListView()],
+            ),
           ),
         ),
       ),
@@ -58,32 +51,56 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _banner() {
-    return SizedBox(
-      height: 150.h,
-      width: double.infinity,
-      child: Swiper(
-        indicatorLayout: PageIndicatorLayout.NONE,
-        autoplay: true,
-        pagination: const SwiperPagination(),
-        control: const SwiperControl(),
-        itemCount: bannerList?.length ?? 0,
-        itemBuilder: (context, index) {
-          return Container(
-            height: 150.h,
-            color: index == 0
-                ? Colors.lightBlue
-                : index == 1
-                    ? Colors.lightGreen
-                    : Colors.brown,
-            child: Image.network(bannerList?[index].imagePath ?? "",
-            fit: BoxFit.fitWidth,),
-          );
-        },
-      ),
-    );
+    return Consumer<HomeViewModel>(builder: (context, vm, child) {
+      return SizedBox(
+        height: 150.h,
+        width: double.infinity,
+        child: Swiper(
+          indicatorLayout: PageIndicatorLayout.NONE,
+          autoplay: true,
+          pagination: const SwiperPagination(),
+          control: const SwiperControl(),
+          itemCount: vm.bannerList?.length ?? 0,
+          itemBuilder: (context, index) {
+            return Container(
+              height: 150.h,
+              color: index == 0
+                  ? Colors.lightBlue
+                  : index == 1
+                      ? Colors.lightGreen
+                      : Colors.brown,
+              child: Image.network(
+                vm.bannerList?[index].imagePath ?? "",
+                fit: BoxFit.fitWidth,
+              ),
+            );
+          },
+        ),
+      );
+    });
   }
 
-  Widget _listItemView() {
+  Widget _homeListView() {
+    return Consumer<HomeViewModel>(builder: (context, vm, child) {
+      return ListView.builder(
+        shrinkWrap: true, //让dart 内部自行计算 listview 高度
+        physics: const NeverScrollableScrollPhysics(), //禁用 listview自带的滑动事件，防止与 scrollView 冲突
+        itemBuilder: (context, index) {
+          return _listItemView(vm.listData?[index]);
+        },
+        itemCount: vm.listData?.length ?? 0,
+      );
+    });
+  }
+
+  Widget _listItemView(HomeListItemData? itemData) {
+    var name;
+    if (itemData != null) {
+      name = itemData.author?.isNotEmpty ?? false ? itemData.author : itemData.shareUser;
+    } else {
+      name = null;
+    }
+
     // 控件增加点击事件，需要用 InkWell 或 GestureDetector 进行包裹
     // InkWell 点击会有水波纹，下面的默认没有，
     return GestureDetector(
@@ -101,6 +118,7 @@ class _HomePageState extends State<HomePage> {
               border: Border.all(color: Colors.black12, width: 0.5.r),
               borderRadius: BorderRadius.all(Radius.circular(6.r))),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -117,11 +135,11 @@ class _HomePageState extends State<HomePage> {
                     width: 5.w,
                   ),
                   Text(
-                    "作者",
+                    name,
                     style: TextStyle(color: Colors.black),
                   ),
                   const Expanded(child: SizedBox()),
-                  Text("2024-08.26 13:30", style: TextStyle(color: Colors.black)),
+                  Text(itemData?.niceShareDate ?? "", style: TextStyle(color: Colors.black)),
                   SizedBox(width: 10.w),
                   Text("置顶", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold))
                 ],
@@ -129,15 +147,14 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 10.h,
               ),
-              Text("标题内容标题内容标题内容标题内容标题内容标题内容标题内容标题内容标题内容标题内容标题内容",
-                  style: TextStyle(color: Colors.black, fontSize: 14.sp)),
+              Text(itemData?.title ?? "", style: TextStyle(color: Colors.black, fontSize: 14.sp)),
               SizedBox(
                 height: 5.h,
               ),
               Row(
                 children: [
                   Text(
-                    "分类",
+                    itemData?.chapterName ?? "",
                     style: TextStyle(color: Colors.green, fontSize: 12.sp),
                   ),
                   const Expanded(child: SizedBox()),
