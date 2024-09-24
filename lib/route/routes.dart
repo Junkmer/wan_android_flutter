@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wan_android_flutter/pages/home/home_page.dart';
+import 'package:wan_android_flutter/pages/tab_page.dart';
 import 'package:wan_android_flutter/pages/web_view_page.dart';
 
 //路由管理类
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case RoutePath.home:
-        return pageRoute(HomePage(),settings: settings);
+      case RoutePath.tab:
+        return pageRoute(TabPage(),settings: settings);
       case RoutePath.webView:
         return pageRoute(WebViewPage(title: "title"),settings: settings);
     }
@@ -42,7 +43,7 @@ class Routes {
 //自定义的 路由地址，主要用于上面 generateRoute 函数中界面加载判断
 class RoutePath {
   //首页
-  static const String home = "/";
+  static const String tab = "/";
 
   //WebView
   static const String webView = "/web_view_page";

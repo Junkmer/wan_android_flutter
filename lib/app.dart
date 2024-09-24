@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           ),
           // home: const HomePage(),
           onGenerateRoute: Routes.generateRoute,
-          initialRoute: RoutePath.home,
+          initialRoute: RoutePath.tab,
         );
       },
     ));
