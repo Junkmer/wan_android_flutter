@@ -46,6 +46,20 @@ class HomeListData {
 
 }
 
+///首页置顶数据
+class HomeTopListData{
+  List<HomeListItemData>? topList;
+
+  HomeTopListData.fromJson(dynamic json){
+    if(json is List){
+      topList = [];
+      for(var element in json){
+        topList?.add(HomeListItemData.fromJson(element));
+      }
+    }
+  }
+}
+
 class HomeListItemData {
   HomeListItemData({
       this.adminAdd, 
@@ -78,7 +92,8 @@ class HomeListItemData {
       this.superChapterId, 
       this.superChapterName, 
       this.tags, 
-      this.title, 
+      this.title,
+      //0:非置顶   1：置顶
       this.type, 
       this.userId, 
       this.visible, 

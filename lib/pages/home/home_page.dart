@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:wan_android_flutter/pages/home/home_vm.dart';
 import 'package:wan_android_flutter/route/routes.dart';
 
-import '../../datas/home_list_data.dart';
+import '../../repository/datas/home_list_data.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     viewModel.getBanner();
-    viewModel.getHomeList();
+    viewModel.initListData();
   }
 
   @override
@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                       ? Colors.lightGreen
                       : Colors.brown,
               child: Image.network(
-                vm.bannerList?[index].imagePath ?? "",
+                vm.bannerList?[index]?.imagePath ?? "",
                 fit: BoxFit.fitWidth,
               ),
             );
@@ -136,7 +136,10 @@ class _HomePageState extends State<HomePage> {
                   const Expanded(child: SizedBox()),
                   Text(itemData?.niceShareDate ?? "", style: TextStyle(color: Colors.black)),
                   SizedBox(width: 10.w),
-                  Text("置顶", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold))
+                  itemData?.type?.toInt() == 1
+                      ? Text("置顶",
+                          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold))
+                      : SizedBox()
                 ],
               ),
               SizedBox(
