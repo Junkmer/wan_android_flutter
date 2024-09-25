@@ -1,12 +1,7 @@
-import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:provider/provider.dart';
-import 'package:wan_android_flutter/datas/home_banner_data.dart';
 import 'package:wan_android_flutter/pages/home/home_vm.dart';
 import 'package:wan_android_flutter/route/routes.dart';
 

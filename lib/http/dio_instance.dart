@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:wan_android_flutter/http/http_method.dart';
+import 'package:wan_android_flutter/http/print_log_interceptor.dart';
+import 'package:wan_android_flutter/http/rsp_interceptor.dart';
 
 class DioInstance {
   static DioInstance? _instance;
@@ -30,6 +32,10 @@ class DioInstance {
         sendTimeout: connectTimeout ?? _defaultTime,
         responseType: responseType,
         contentType: contentType);
+    //添加打印请求返回信息拦截器
+    _dio.interceptors.add(PrintLogInterceptor());
+    //添加统一返回值处理拦截器
+    _dio.interceptors.add(ResponseInterceptor());
   }
 
   ///get 请求方法

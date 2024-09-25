@@ -1,31 +1,3 @@
-
-class HomeData {
-  HomeData({
-      this.data, 
-      this.errorCode, 
-      this.errorMsg,});
-
-  HomeData.fromJson(dynamic json) {
-    data = json['data'] != null ? HomeListData.fromJson(json['data']) : null;
-    errorCode = json['errorCode'];
-    errorMsg = json['errorMsg'];
-  }
-  HomeListData? data;
-  num? errorCode;
-  String? errorMsg;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    if (data != null) {
-      map['data'] = data?.toJson();
-    }
-    map['errorCode'] = errorCode;
-    map['errorMsg'] = errorMsg;
-    return map;
-  }
-
-}
-
 class HomeListData {
   HomeListData({
       this.curPage, 
