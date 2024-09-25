@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android_flutter/pages/home/home_vm.dart';
 import 'package:wan_android_flutter/route/routes.dart';
 
@@ -18,6 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   HomeViewModel viewModel = HomeViewModel();
+  RefreshController refreshController = RefreshController();
 
   @override
   void initState() {
@@ -34,10 +36,28 @@ class _HomePageState extends State<HomePage> {
       },
       child: Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-            //实现 banner 和 listview 一起滑动
-            child: Column(
-              children: [_banner(), _homeListView()],
+          child: SmartRefresher(
+            controller: refreshController,
+            enablePullUp: true,
+            enablePullDown: true,
+            header: ClassicHeader(),
+            footer: ClassicFooter(),
+            onLoading: () {
+              //上拉加载
+            },
+            onRefresh: () async{
+              //下拉刷新
+              // viewModel.getBanner().then((value) => {
+              //       viewModel.initListData().then((value) => {refreshController.refreshCompleted()})
+              //     });
+              await Future.wait([viewModel.getBanner(), viewModel.initListData()]);
+              refreshController.refreshCompleted();
+            },
+            child: SingleChildScrollView(
+              //实现 banner 和 listview 一起滑动
+              child: Column(
+                children: [_banner(), _homeListView()],
+              ),
             ),
           ),
         ),
