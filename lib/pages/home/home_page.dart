@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
@@ -44,14 +46,26 @@ class _HomePageState extends State<HomePage> {
             footer: ClassicFooter(),
             onLoading: () {
               //上拉加载
+              viewModel.loadMoreData().then((value) {
+                bool loadFlag = value as bool;
+                if(loadFlag){
+                  refreshController.loadComplete();
+                }else{
+                  // refreshController.loadFailed();
+                  refreshController.loadNoData();
+                }
+              });
             },
-            onRefresh: () async{
+            onRefresh: () {
               //下拉刷新
-              // viewModel.getBanner().then((value) => {
-              //       viewModel.initListData().then((value) => {refreshController.refreshCompleted()})
-              //     });
-              await Future.wait([viewModel.getBanner(), viewModel.initListData()]);
-              refreshController.refreshCompleted();
+              viewModel.initListData().then((value) {
+                bool refreshFlag = value as bool;
+                if(refreshFlag){
+                  refreshController.refreshCompleted(resetFooterState: true);
+                }else{
+                  refreshController.refreshFailed();
+                }
+              });
             },
             child: SingleChildScrollView(
               //实现 banner 和 listview 一起滑动

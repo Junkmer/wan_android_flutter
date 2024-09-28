@@ -13,21 +13,21 @@ class Api {
   //执行 异步或处理耗时任务时，建议通过创建 Future函数 配合 async 关键字 调用
   ///获取首页 banner数据
   Future<List<HomeBannerData?>?> getBanner() async {
-    Response response = await DioInstance.instance().get(path: UrlManager.home_banner_path);
+    Response response = await DioInstance.instance().get(path: "banner/json");
     HomeBannerListData bannerData = HomeBannerListData.fromJson(response.data);
     return bannerData.bannerList;
   }
 
   ///获取首页文章列表
-  Future<List<HomeListItemData>?> getHomeList() async {
-    Response response = await DioInstance.instance().get(path: UrlManager.home_list_path);
+  Future<List<HomeListItemData>?> getHomeList(int pageCount) async {
+    Response response = await DioInstance.instance().get(path: "article/list/$pageCount/json");
     HomeListData homeData = HomeListData.fromJson(response.data);
     return homeData.datas;
   }
 
   ///获取首页文章置顶数据
   Future<List<HomeListItemData>?> getHomeTopList() async {
-    Response response = await DioInstance.instance().get(path: UrlManager.home_top_list_path);
+    Response response = await DioInstance.instance().get(path: "article/top/json");
     HomeTopListData homeData = HomeTopListData.fromJson(response.data);
     return homeData.topList;
   }

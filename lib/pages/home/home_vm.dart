@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:wan_android_flutter/repository/api.dart';
 
 import '../../repository/datas/home_banner_data.dart';
 import '../../repository/datas/home_list_data.dart';
 
 class HomeViewModel with ChangeNotifier {
+  int pageCount = 0;
   List<HomeBannerData?>? bannerList;
   List<HomeListItemData>? listData = [];
 
@@ -18,22 +20,54 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future initListData() async {
-    await _getTopList();
-    await _getHomeList();
+  ///首次加载首页数据 及 刷新请求
+  Future<bool?> initListData() async {
+    try {
+      List<HomeListItemData>? topList;
+      List<HomeListItemData>? homeList;
+
+      await Future.wait([_getTopList(), _getHomeList()]).then((List results) {
+        topList = results[0] as List<HomeListItemData>;
+        homeList = results[1] as List<HomeListItemData>;
+      });
+
+      List<HomeListItemData> combinedList = List.from(topList ?? [])..addAll(homeList ?? []);
+
+      if (combinedList.isNotEmpty) {
+        pageCount = 0;
+        listData?.clear();
+      }
+
+      listData = combinedList;
+    } catch (e) {
+      // 处理异常
+      if (kDebugMode) {
+        print('initListData error, exception: $e');
+      }
+    }
     notifyListeners();
+    return listData?.isNotEmpty;
+  }
+
+  ///加载更多逻辑处理
+  Future<bool?> loadMoreData() async {
+    pageCount++;
+    List<HomeListItemData>? homeList = await _getHomeList();
+    if (homeList == null || homeList.isEmpty) {
+      pageCount--;
+    }
+    listData?.addAll(homeList ?? []);
+    notifyListeners();
+    return homeList?.isNotEmpty;
   }
 
   ///获取首页文章列表
-  Future _getHomeList() async {
-    List<HomeListItemData>? list = await Api.instance.getHomeList();
-    listData?.addAll(list ?? []);
+  Future<List<HomeListItemData>?> _getHomeList() async {
+    return await Api.instance.getHomeList(pageCount);
   }
 
   ///获取首页置顶数据
-  Future _getTopList() async {
-    List<HomeListItemData>? list = await Api.instance.getHomeTopList();
-    listData?.clear();
-    listData?.addAll(list ?? []);
+  Future<List<HomeListItemData>?> _getTopList() async {
+    return await Api.instance.getHomeTopList();
   }
 }
