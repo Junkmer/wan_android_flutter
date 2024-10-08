@@ -14,11 +14,11 @@ class NavigationBarWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return NavigationBarWidgetState();
+    return _NavigationBarWidgetState();
   }
 }
 
-class NavigationBarWidgetState extends State<NavigationBarWidget> {
+class _NavigationBarWidgetState extends State<NavigationBarWidget> {
   late int currentIndex;
 
   @override
