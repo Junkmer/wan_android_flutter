@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wan_android_flutter/common_ui/navigation/navigation_bar_item.dart';
 
 import 'navigation_bar_bean.dart';
 
@@ -39,19 +40,22 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
         bottomNavigationBar: Theme(
           data: Theme.of(context)
               .copyWith(splashColor: Colors.transparent, highlightColor: Colors.transparent),
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            selectedLabelStyle: TextStyle(fontSize: 13.sp, color: Colors.black),
-            unselectedLabelStyle: TextStyle(fontSize: 12.sp, color: Colors.blueGrey),
-            currentIndex: currentIndex,
-            items: _barItemList(),
-            onTap: (index) {
-              //点击切换页面
-              currentIndex = index;
-              widget.onTabChange?.call(index);
-              setState(() {});
-            },
-          ),
+          child: PreferredSize(
+            preferredSize: Size.fromHeight(80.0), // 设置高度为 60.0
+            child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              selectedLabelStyle: TextStyle(fontSize: 13.sp, color: Colors.black),
+              unselectedLabelStyle: TextStyle(fontSize: 12.sp, color: Colors.blueGrey),
+              currentIndex: currentIndex,
+              items: _barItemList(),
+              onTap: (index) {
+                //点击切换页面
+                currentIndex = index;
+                widget.onTabChange?.call(index);
+                setState(() {});
+              },
+            ),
+          )
         ));
   }
 
@@ -62,8 +66,14 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
   List<BottomNavigationBarItem> _barItemList() {
     List<BottomNavigationBarItem> items = [];
     for (var bean in widget.beans) {
-      items.add(
-          BottomNavigationBarItem(label: bean.label, icon: bean.icon, activeIcon: bean.activeIcon));
+      items.add(BottomNavigationBarItem(
+          label: bean.label,
+          icon: bean.icon,
+          activeIcon: NavigationBarItem(
+            builder: (context) {
+              return bean.activeIcon;
+            },
+          )));
     }
     return items;
   }

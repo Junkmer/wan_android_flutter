@@ -28,28 +28,28 @@ class _TabPageState extends State<TabPage> {
         page: HomePage(),
         label: "首页",
         icon: Image.asset("assets/images/demo_conversation_not_selected.png",
-            width: 32.r, height: 32.r),
+            width: 24.r, height: 24.r),
         activeIcon: Image.asset("assets/images/demo_main_tab_conversation_selected_serious.png",
-            width: 32.r, height: 32.r)));
+            width: 28.r, height: 28.r)));
     beans.add(NavigationBarBean(
         page: HotKeyPage(),
         label: "热点",
         icon:
-            Image.asset("assets/images/demo_community_not_selected.png", width: 32.r, height: 32.r),
+            Image.asset("assets/images/demo_community_not_selected.png", width: 24.r, height: 24.r),
         activeIcon: Image.asset("assets/images/demo_main_tab_community_selected_serious.png",
-            width: 32.r, height: 32.r)));
+            width: 28.r, height: 28.r)));
     beans.add(NavigationBarBean(
         page: KnowledgePage(),
         label: "体系",
-        icon: Image.asset("assets/images/demo_contact_not_selected.png", width: 32.r, height: 32.r),
+        icon: Image.asset("assets/images/demo_contact_not_selected.png", width: 24.r, height: 24.r),
         activeIcon: Image.asset("assets/images/demo_main_tab_contact_selected_serious.png",
-            width: 32.r, height: 32.r)));
+            width: 28.r, height: 28.r)));
     beans.add(NavigationBarBean(
         page: PersonalPage(),
         label: "我的",
-        icon: Image.asset("assets/images/demo_profile_not_selected.png", width: 32.r, height: 32.r),
+        icon: Image.asset("assets/images/demo_profile_not_selected.png", width: 24.r, height: 24.r),
         activeIcon: Image.asset("assets/images/demo_main_tab_profile_selected_serious.png",
-            width: 32.r, height: 32.r)));
+            width: 28.r, height: 28.r)));
   }
 
   @override
