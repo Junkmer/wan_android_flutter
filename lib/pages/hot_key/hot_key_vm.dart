@@ -1,13 +1,12 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:wan_android_flutter/repository/api.dart';
 
 import '../../repository/datas/common_website_data.dart';
 import '../../repository/datas/search_hot_keys_data.dart';
 
-class HotKeyVm with ChangeNotifier {
+class HotKeyPageViewModel with ChangeNotifier {
   List<SearchHotKeysData>? hotKeyList;
   List<CommonWebsiteData>? websitelist;
 
