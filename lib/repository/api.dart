@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:wan_android_flutter/repository/datas/common_website_data.dart';
+import 'package:wan_android_flutter/repository/datas/search_hot_keys_data.dart';
 
 import '../http/dio_instance.dart';
-import '../http/url_manager.dart';
 import 'datas/home_banner_data.dart';
 import 'datas/home_list_data.dart';
 
@@ -32,4 +33,17 @@ class Api {
     return homeData.topList;
   }
 
+  ///获取热词
+  Future<List<SearchHotKeysData>?> getHotKeyList() async {
+    Response response = await DioInstance.instance().get(path: "hotkey/json");
+    SearchHotKeysListData hotKeysListData = SearchHotKeysListData.fromJson(response.data);
+    return hotKeysListData.keysList;
+  }
+
+  ///获取常用网站
+  Future<List<CommonWebsiteData>?> getWebsiteList() async {
+    Response response = await DioInstance.instance().get(path: "friend/json");
+    CommonWebsiteListData websiteListData = CommonWebsiteListData.fromJson(response.data);
+    return websiteListData.websiteList;
+  }
 }
