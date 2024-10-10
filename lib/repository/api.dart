@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:wan_android_flutter/repository/datas/auth_data.dart';
 import 'package:wan_android_flutter/repository/datas/common_website_data.dart';
 import 'package:wan_android_flutter/repository/datas/search_hot_keys_data.dart';
 
@@ -45,5 +46,23 @@ class Api {
     Response response = await DioInstance.instance().get(path: "friend/json");
     CommonWebsiteListData websiteListData = CommonWebsiteListData.fromJson(response.data);
     return websiteListData.websiteList;
+  }
+
+  ///注册
+  Future<bool?> register({String? username, String? password, String? repassword}) async {
+    Response response = await DioInstance.instance().post(path: "user/register", queryParameters: {
+      "username": username ?? "",
+      "password": password ?? "",
+      "repassword": repassword ?? "",
+    });
+    return response.data != null;
+  }
+
+  ///登录
+  Future<AuthData?> login({String? username, String? password}) async {
+    Response response = await DioInstance.instance()
+        .post(path: "user/login", queryParameters: {"username": username, "password": password});
+    AuthData authData = AuthData.fromJson(response.data);
+    return authData;
   }
 }
