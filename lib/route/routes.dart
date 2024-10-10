@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wan_android_flutter/pages/auth/login_page.dart';
+import 'package:wan_android_flutter/pages/auth/register_page.dart';
 import 'package:wan_android_flutter/pages/home/home_page.dart';
 import 'package:wan_android_flutter/pages/tab_page.dart';
 import 'package:wan_android_flutter/pages/web_view_page.dart';
@@ -10,8 +12,12 @@ class Routes {
     switch (settings.name) {
       case RoutePath.tab:
         return pageRoute(TabPage(),settings: settings);
-      case RoutePath.webView:
+      case RoutePath.webViewPage:
         return pageRoute(WebViewPage(title: "title"),settings: settings);
+      case RoutePath.loginPage:
+        return pageRoute(LoginPage(),settings: settings);
+      case RoutePath.registerPage:
+        return pageRoute(RegisterPage(),settings: settings);
     }
     return pageRoute(Scaffold(
       body: SafeArea(
@@ -46,5 +52,11 @@ class RoutePath {
   static const String tab = "/";
 
   //WebView
-  static const String webView = "/web_view_page";
+  static const String webViewPage = "/web_view_page";
+
+  //login 页面
+  static const String loginPage = "/login_page";
+
+  //register 页面
+  static const String registerPage = "/register_page";
 }

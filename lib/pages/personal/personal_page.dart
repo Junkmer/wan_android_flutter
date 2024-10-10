@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wan_android_flutter/pages/auth/login_page.dart';
+import 'package:wan_android_flutter/route/routes.dart';
 
 class PersonalPage extends StatefulWidget {
   const PersonalPage({super.key});
@@ -30,13 +32,19 @@ class _PersonalPageState extends State<PersonalPage> {
       color: Colors.teal,
       height: 220.h,
       width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset("assets/images/ic_launcher.png", width: 50.r, height: 50.r),
-          SizedBox(height: 5.h),
-          Text("未登录", style: TextStyle(color: Colors.white))
-        ],
+      child: GestureDetector(
+        onTap: () {
+          // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+          Navigator.pushNamed(context, RoutePath.loginPage);
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset("assets/images/ic_launcher.png", width: 50.r, height: 50.r),
+            SizedBox(height: 5.h),
+            Text("未登录", style: TextStyle(color: Colors.white))
+          ],
+        ),
       ),
     );
   }

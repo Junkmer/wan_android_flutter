@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
         //   return WebViewPage(title: "首页传过来的值");
         // }));
         // Navigator.pushNamed(context, RoutePath.webView);
-        Navigator.pushNamed(context, RoutePath.webView, arguments: {"name": "使用路由传值"});
+        Navigator.pushNamed(context, RoutePath.webViewPage, arguments: {"name": "使用路由传值"});
       },
       child: Container(
           margin: EdgeInsets.only(top: 5.h, bottom: 5.h, left: 10.w, right: 10.w),
