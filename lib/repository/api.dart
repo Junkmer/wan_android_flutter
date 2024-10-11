@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:wan_android_flutter/repository/datas/auth_data.dart';
 import 'package:wan_android_flutter/repository/datas/common_website_data.dart';
+import 'package:wan_android_flutter/repository/datas/knowledge_data.dart';
 import 'package:wan_android_flutter/repository/datas/search_hot_keys_data.dart';
 
 import '../http/dio_instance.dart';
@@ -64,5 +65,12 @@ class Api {
         .post(path: "user/login", queryParameters: {"username": username, "password": password});
     AuthData authData = AuthData.fromJson(response.data);
     return authData;
+  }
+
+  ///获取体系列表数据
+  Future<List<KnowledgeData>?> getKnowledgeList() async {
+    Response response = await DioInstance.instance().get(path: "tree/json");
+    KnowledgeListData knowledgeListData = KnowledgeListData.formJson(response.data);
+    return knowledgeListData.knowledgeList;
   }
 }
