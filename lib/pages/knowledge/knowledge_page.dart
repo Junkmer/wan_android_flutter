@@ -65,25 +65,15 @@ class _KnowledgePageState extends State<KnowledgePage> {
               SizedBox(
                 height: 5.h,
               ),
-              Expanded(child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return _subItem(name: childrenList?[index].name);
-                },
-                itemCount: childrenList?.length ?? 0,
-              ))
+              Text(
+                viewModel.generalSubTitle(childrenList),
+                style: TextStyle(color: Colors.grey, fontSize: 13.sp),
+              )
             ],
           )),
           Image.asset("assets/images/arrow_right.png", width: 15.w, height: 20.h)
         ],
       ),
-    );
-  }
-
-  Widget _subItem({String? name}) {
-    return Text(
-      name ?? "",
-      style: TextStyle(color: Colors.grey, fontSize: 13.sp),
     );
   }
 }

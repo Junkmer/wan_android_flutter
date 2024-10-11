@@ -13,4 +13,16 @@ class KnowledgeViewModel with ChangeNotifier {
     knowledgeList = value ?? [];
     notifyListeners();
   }
+
+  String generalSubTitle(List<KnowledgeChildren>? childrenList){
+    if(childrenList == null || childrenList.isEmpty == true){
+      return "";
+    }
+
+    StringBuffer stringBuffer = StringBuffer("");
+    for (var value in childrenList) {
+      stringBuffer.write("${value.name}  ");
+    }
+    return stringBuffer.toString();
+  }
 }
