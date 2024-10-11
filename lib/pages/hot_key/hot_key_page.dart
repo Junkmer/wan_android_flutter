@@ -84,7 +84,7 @@ class _HotKeyPageState extends State<HotKeyPage> {
       List<SearchHotKeysData>? hotKeyList,
       ValueChanged<String>? itemTop}) {
     return Container(
-        margin: EdgeInsets.only(top: 10.h,bottom: 10.h),
+        margin: EdgeInsets.only(top: 10.h, bottom: 10.h),
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
@@ -93,9 +93,9 @@ class _HotKeyPageState extends State<HotKeyPage> {
               //主轴间隔
               mainAxisSpacing: 10.r,
               //最大横轴范围
-              maxCrossAxisExtent: 120.w,
+              maxCrossAxisExtent: 150.w,
               //宽高比
-              childAspectRatio: 3,
+              childAspectRatio: 2.3,
               //横轴间隔
               crossAxisSpacing: 10.r),
           itemBuilder: (context, index) {
@@ -121,6 +121,7 @@ class _HotKeyPageState extends State<HotKeyPage> {
         },
         child: Container(
           alignment: Alignment.center,
+          padding: EdgeInsets.only(left: 10.w, right: 10.w),
           decoration: BoxDecoration(
               border: Border.all(color: Colors.grey, width: 0.5.r),
               borderRadius: BorderRadius.all(Radius.circular(10.r))),
