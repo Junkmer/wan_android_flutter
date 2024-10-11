@@ -73,4 +73,23 @@ class Api {
     KnowledgeListData knowledgeListData = KnowledgeListData.formJson(response.data);
     return knowledgeListData.knowledgeList;
   }
+
+  ///收藏
+  Future<bool?> collect(num id) async {
+    Response response = await DioInstance.instance().post(path: "lg/collect/$id/json");
+    return response.data;
+  }
+
+
+  ///取消收藏
+  Future<bool?> unCollect(num id) async {
+    Response response = await DioInstance.instance().post(path: "lg/uncollect_originId/$id/json");
+    return response.data;
+  }
+
+  ///退出登录
+  Future<bool?> logout() async {
+    Response response = await DioInstance.instance().get(path: "user/logout/json");
+    return response.data;
+  }
 }

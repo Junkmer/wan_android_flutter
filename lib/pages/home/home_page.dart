@@ -46,9 +46,9 @@ class _HomePageState extends State<HomePage> {
               //上拉加载
               viewModel.loadMoreData().then((value) {
                 bool loadFlag = value as bool;
-                if(loadFlag){
+                if (loadFlag) {
                   refreshController.loadComplete();
-                }else{
+                } else {
                   // refreshController.loadFailed();
                   refreshController.loadNoData();
                 }
@@ -58,9 +58,9 @@ class _HomePageState extends State<HomePage> {
               //下拉刷新
               viewModel.initListData().then((value) {
                 bool refreshFlag = value as bool;
-                if(refreshFlag){
+                if (refreshFlag) {
                   refreshController.refreshCompleted(resetFooterState: true);
-                }else{
+                } else {
                   refreshController.refreshFailed();
                 }
               });
@@ -113,14 +113,14 @@ class _HomePageState extends State<HomePage> {
         shrinkWrap: true, //让dart 内部自行计算 listview 高度
         physics: const NeverScrollableScrollPhysics(), //禁用 listview自带的滑动事件，防止与 scrollView 冲突
         itemBuilder: (context, index) {
-          return _listItemView(vm.listData?[index]);
+          return _listItemView(vm.listData?[index], index);
         },
         itemCount: vm.listData?.length ?? 0,
       );
     });
   }
 
-  Widget _listItemView(HomeListItemData? itemData) {
+  Widget _listItemView(HomeListItemData? itemData, int index) {
     var name;
     if (itemData != null) {
       name = itemData.author?.isNotEmpty ?? false ? itemData.author : itemData.shareUser;
@@ -170,8 +170,9 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(width: 10.w),
                   itemData?.type?.toInt() == 1
                       ? Text("置顶",
-                          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold))
-                      : SizedBox()
+                          style: TextStyle(
+                              color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 14.sp))
+                      : const SizedBox()
                 ],
               ),
               SizedBox(
@@ -182,17 +183,32 @@ class _HomePageState extends State<HomePage> {
                 height: 5.h,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     itemData?.chapterName ?? "",
                     style: TextStyle(color: Colors.green, fontSize: 12.sp),
                   ),
-                  const Expanded(child: SizedBox()),
-                  Image.asset("assets/images/collect_un_select.png", width: 20.r, height: 20.r)
+                  GestureDetector(
+                    onTap: () {
+                      if (itemData != null) {
+                        viewModel.collectOrUnCollect(itemData, index);
+                      }
+                    },
+                    child: SizedBox(height: 25.h, child: _collectState(itemData?.collect)),
+                  ),
                 ],
               )
             ],
           )),
     );
+  }
+
+  Widget _collectState(bool? flag) {
+    if (flag == true) {
+      return Image.asset("assets/images/collect_select.png", width: 25.r, height: 25.r);
+    } else {
+      return Image.asset("assets/images/collect_un_select.png", width: 20.r, height: 20.r);
+    }
   }
 }

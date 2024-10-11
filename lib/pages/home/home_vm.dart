@@ -70,4 +70,33 @@ class HomeViewModel with ChangeNotifier {
   Future<List<HomeListItemData>?> _getTopList() async {
     return await Api.instance.getHomeTopList();
   }
+
+  ///收藏或取消收藏
+  void collectOrUnCollect(HomeListItemData itemData, int index) {
+    if (itemData.id != null) {
+      if (itemData.collect == true) {
+        _unCollect(itemData.id!, index);
+      } else {
+        _collect(itemData.id!, index);
+      }
+    }
+  }
+
+  ///收藏
+  Future _collect(num id, int index) async {
+    var value = await Api.instance.collect(id);
+    if (value == true) {
+      listData?[index].collect = true;
+      notifyListeners();
+    }
+  }
+
+  ///取消收藏
+  Future _unCollect(num id, int index) async {
+    var value = await Api.instance.unCollect(id);
+    if (value == true) {
+      listData?[index].collect = false;
+      notifyListeners();
+    }
+  }
 }

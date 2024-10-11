@@ -6,6 +6,7 @@ import 'package:wan_android_flutter/pages/auth/auth_vm.dart';
 import 'package:wan_android_flutter/route/routes.dart';
 
 import '../../common_ui/common_style.dart';
+import '../tab_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -53,7 +54,11 @@ class _LoginPageState extends State<LoginPage> {
                         password: passwordController?.text ?? "");
                     vm.login().then((value) {
                       if (value == true) {
-                        Navigator.popUntil(context, ModalRoute.withName(RoutePath.tab));
+                        // 导航到新页面并移除所有页面
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => const TabPage()),
+                          (Route<dynamic> route) => false,
+                        );
                       } else {
                         showToast("登录失败");
                       }
