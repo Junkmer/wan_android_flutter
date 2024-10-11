@@ -7,20 +7,13 @@ import 'package:wan_android_flutter/utils/sp_utils.dart';
 import 'base_model.dart';
 
 class CookieInterceptor extends Interceptor {
-  bool isLogin = false;
-  List<String?>? globalCookieList;
-
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if (globalCookieList == null || (isLogin && globalCookieList?.isEmpty == true)) {
-      //取出本地cookie
-      SpUtils.getStringList(Constants.SP_Cookie_List).then((cookieList) {
-        globalCookieList = cookieList ?? [];
-        //把本地缓存的cookie放入请求头
-        options.headers[HttpHeaders.setCookieHeader] = cookieList;
-        handler.next(options);
-      });
-    }
+    //把本地缓存的cookie放入请求头
+    SpUtils.getStringList(Constants.SP_Cookie_List).then((cookieList) {
+      options.headers[HttpHeaders.cookieHeader] = cookieList;
+      handler.next(options);
+    });
     super.onRequest(options, handler);
   }
 
@@ -37,8 +30,6 @@ class CookieInterceptor extends Interceptor {
             cookieList.add(value);
           }
         }
-        globalCookieList = [];
-        isLogin = true;
         SpUtils.saveStringList(Constants.SP_Cookie_List, cookieList);
       }
     }
