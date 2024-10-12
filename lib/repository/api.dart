@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:wan_android_flutter/repository/datas/auth_data.dart';
 import 'package:wan_android_flutter/repository/datas/common_website_data.dart';
 import 'package:wan_android_flutter/repository/datas/knowledge_data.dart';
+import 'package:wan_android_flutter/repository/datas/knowledge_detail_list_data.dart';
 import 'package:wan_android_flutter/repository/datas/search_hot_keys_data.dart';
 
 import '../http/dio_instance.dart';
@@ -80,7 +81,6 @@ class Api {
     return response.data;
   }
 
-
   ///取消收藏
   Future<bool?> unCollect(num id) async {
     Response response = await DioInstance.instance().post(path: "lg/uncollect_originId/$id/json");
@@ -91,5 +91,12 @@ class Api {
   Future<bool?> logout() async {
     Response response = await DioInstance.instance().get(path: "user/logout/json");
     return response.data;
+  }
+
+  Future<KnowledgeDetailListData?> getKnowledgeDetailList(String? cid, int page) async {
+    Response response =
+        await DioInstance.instance().get(path: "article/list/$page/json", param: {"cid": cid});
+    KnowledgeDetailListData listData = KnowledgeDetailListData.fromJson(response.data);
+    return listData;
   }
 }

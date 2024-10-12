@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:wan_android_flutter/pages/knowledge/detail/knowledge_detail_tab_page.dart';
 import 'package:wan_android_flutter/pages/knowledge/knowledge_vm.dart';
 import 'package:wan_android_flutter/repository/datas/knowledge_data.dart';
 
@@ -35,9 +36,18 @@ class _KnowledgePageState extends State<KnowledgePage> {
             shrinkWrap: true, //让dart 内部自行计算 listview 高度
             padding: EdgeInsets.only(top: 10.h),
             itemBuilder: (context, index) {
-              return _item(
-                  title: vm.knowledgeList?[index].name,
-                  childrenList: vm.knowledgeList?[index].children);
+              return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => KnowledgeListDetailPage(
+                                tabList: vm.knowledgeList?[index].children ?? [],
+                                )));
+                  },
+                  child: _item(
+                      title: vm.knowledgeList?[index].name,
+                      childrenList: vm.knowledgeList?[index].children));
             },
             itemCount: vm.knowledgeList?.length ?? 0,
           );
