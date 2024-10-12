@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wan_android_flutter/pages/hot_key/hot_key_vm.dart';
+import 'package:wan_android_flutter/pages/search/search_page.dart';
 import 'package:wan_android_flutter/repository/datas/search_hot_keys_data.dart';
 
 import '../../repository/datas/common_website_data.dart';
@@ -54,7 +55,14 @@ class _HotKeyPageState extends State<HotKeyPage> {
                 ),
                 //搜索热词
                 Consumer<HotKeyPageViewModel>(builder: (context, vm, child) {
-                  return _gridView(false, hotKeyList: vm.hotKeyList, itemTop: (value) {});
+                  return _gridView(false, hotKeyList: vm.hotKeyList, itemTop: (value) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SearchPage(
+                                  content: value,
+                                )));
+                  });
                 }),
                 //标题
                 Container(
@@ -103,7 +111,7 @@ class _HotKeyPageState extends State<HotKeyPage> {
               return _item(
                   name: websiteList?[index].name, itemTop: itemTop, link: websiteList?[index].link);
             } else {
-              return _item(name: hotKeyList?[index].name);
+              return _item(name: hotKeyList?[index].name, itemTop: itemTop);
             }
           },
           itemCount: isWebsite == true ? websiteList?.length ?? 0 : hotKeyList?.length ?? 0,

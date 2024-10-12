@@ -2,12 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:wan_android_flutter/repository/datas/auth_data.dart';
 import 'package:wan_android_flutter/repository/datas/common_website_data.dart';
 import 'package:wan_android_flutter/repository/datas/knowledge_data.dart';
-import 'package:wan_android_flutter/repository/datas/knowledge_detail_list_data.dart';
 import 'package:wan_android_flutter/repository/datas/search_hot_keys_data.dart';
 
 import '../http/dio_instance.dart';
 import 'datas/home_banner_data.dart';
 import 'datas/home_list_data.dart';
+import 'datas/knowledge_detail_list_data.dart';
+import 'datas/search_data.dart';
 
 class Api {
   static Api instance = Api._();
@@ -81,6 +82,7 @@ class Api {
     return response.data;
   }
 
+
   ///取消收藏
   Future<bool?> unCollect(num id) async {
     Response response = await DioInstance.instance().post(path: "lg/uncollect_originId/$id/json");
@@ -93,10 +95,19 @@ class Api {
     return response.data;
   }
 
+  ///获取体系详情
   Future<KnowledgeDetailListData?> getKnowledgeDetailList(String? cid, int page) async {
     Response response =
-        await DioInstance.instance().get(path: "article/list/$page/json", param: {"cid": cid});
+    await DioInstance.instance().get(path: "article/list/$page/json", param: {"cid": cid});
     KnowledgeDetailListData listData = KnowledgeDetailListData.fromJson(response.data);
     return listData;
+  }
+
+  ///搜索
+  Future<SearchData?> search(String? key, int pageCount) async {
+    Response response = await DioInstance.instance()
+        .post(path: "article/query/$pageCount/json", queryParameters: {"k": key});
+    var callbackData = SearchData.fromJson(response.data);
+    return callbackData;
   }
 }
