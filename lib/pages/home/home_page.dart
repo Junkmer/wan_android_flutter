@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wan_android_flutter/common_ui/web/webview_page.dart';
+import 'package:wan_android_flutter/common_ui/web/webview_widget.dart';
 import 'package:wan_android_flutter/pages/home/home_vm.dart';
 import 'package:wan_android_flutter/route/routes.dart';
 
@@ -89,16 +91,24 @@ class _HomePageState extends State<HomePage> {
           control: const SwiperControl(),
           itemCount: vm.bannerList?.length ?? 0,
           itemBuilder: (context, index) {
-            return Container(
-              height: 150.h,
-              color: index == 0
-                  ? Colors.lightBlue
-                  : index == 1
-                      ? Colors.lightGreen
-                      : Colors.brown,
-              child: Image.network(
-                vm.bannerList?[index]?.imagePath ?? "",
-                fit: BoxFit.fitWidth,
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return WebviewPage(
+                      loadResource: vm.bannerList?[index]?.url ?? "", webViewType: WebViewType.URL);
+                }));
+              },
+              child: Container(
+                height: 150.h,
+                color: index == 0
+                    ? Colors.lightBlue
+                    : index == 1
+                        ? Colors.lightGreen
+                        : Colors.brown,
+                child: Image.network(
+                  vm.bannerList?[index]?.imagePath ?? "",
+                  fit: BoxFit.fitWidth,
+                ),
               ),
             );
           },
@@ -132,11 +142,11 @@ class _HomePageState extends State<HomePage> {
     // InkWell 点击会有水波纹，下面的默认没有，
     return GestureDetector(
       onTap: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context){
-        //   return WebViewPage(title: "首页传过来的值");
-        // }));
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return WebviewPage(loadResource: itemData?.link ?? "", webViewType: WebViewType.URL);
+        }));
         // Navigator.pushNamed(context, RoutePath.webView);
-        Navigator.pushNamed(context, RoutePath.webViewPage, arguments: {"name": "使用路由传值"});
+        // Navigator.pushNamed(context, RoutePath.webViewPage, arguments: {"name": "使用路由传值"});
       },
       child: Container(
           margin: EdgeInsets.only(top: 5.h, bottom: 5.h, left: 10.w, right: 10.w),

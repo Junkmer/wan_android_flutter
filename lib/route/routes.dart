@@ -1,23 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wan_android_flutter/pages/auth/login_page.dart';
 import 'package:wan_android_flutter/pages/auth/register_page.dart';
-import 'package:wan_android_flutter/pages/home/home_page.dart';
 import 'package:wan_android_flutter/pages/tab_page.dart';
-import 'package:wan_android_flutter/pages/web_view_page.dart';
 
 //路由管理类
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RoutePath.tab:
-        return pageRoute(TabPage(),settings: settings);
-      case RoutePath.webViewPage:
-        return pageRoute(WebViewPage(title: "title"),settings: settings);
+        return pageRoute(TabPage(), settings: settings);
       case RoutePath.loginPage:
-        return pageRoute(LoginPage(),settings: settings);
+        return pageRoute(LoginPage(), settings: settings);
       case RoutePath.registerPage:
-        return pageRoute(RegisterPage(),settings: settings);
+        return pageRoute(RegisterPage(), settings: settings);
     }
     return pageRoute(Scaffold(
       body: SafeArea(
@@ -50,9 +45,6 @@ class Routes {
 class RoutePath {
   //首页
   static const String tab = "/";
-
-  //WebView
-  static const String webViewPage = "/web_view_page";
 
   //login 页面
   static const String loginPage = "/login_page";

@@ -51,6 +51,8 @@ dependencies:
   shared_preferences: ^2.0.0
   # 显示html文本
   flutter_html: ^3.0.0-alpha.6
+  # webview：基于原生webview封装
+  flutter_inappwebview: ^5.8.0
 
 dev_dependencies:
   flutter_test:
