@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wan_android_flutter/common_ui/loading.dart';
 import 'package:wan_android_flutter/common_ui/web/webview_page.dart';
 import 'package:wan_android_flutter/common_ui/web/webview_widget.dart';
 import 'package:wan_android_flutter/pages/home/home_vm.dart';
@@ -42,8 +43,8 @@ class _HomePageState extends State<HomePage> {
             controller: refreshController,
             enablePullUp: true,
             enablePullDown: true,
-            header: ClassicHeader(),
-            footer: ClassicFooter(),
+            header: const ClassicHeader(),
+            footer: const ClassicFooter(),
             onLoading: () {
               //上拉加载
               viewModel.loadMoreData().then((value) {
@@ -131,7 +132,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _listItemView(HomeListItemData? itemData, int index) {
-    var name;
+    String? name;
     if (itemData != null) {
       name = itemData.author?.isNotEmpty ?? false ? itemData.author : itemData.shareUser;
     } else {
@@ -172,11 +173,11 @@ class _HomePageState extends State<HomePage> {
                     width: 5.w,
                   ),
                   Text(
-                    name,
-                    style: TextStyle(color: Colors.black),
+                    name ?? "",
+                    style: const TextStyle(color: Colors.black),
                   ),
                   const Expanded(child: SizedBox()),
-                  Text(itemData?.niceShareDate ?? "", style: TextStyle(color: Colors.black)),
+                  Text(itemData?.niceShareDate ?? "", style: const TextStyle(color: Colors.black)),
                   SizedBox(width: 10.w),
                   itemData?.type?.toInt() == 1
                       ? Text("置顶",

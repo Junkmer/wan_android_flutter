@@ -6,6 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android_flutter/pages/search/search_vm.dart';
 
 import '../../common_ui/SmartRefreshWidget.dart';
+import '../../common_ui/loading.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key, this.content});
@@ -53,7 +54,10 @@ class _SearchPageState extends State<SearchPage> {
                   inputController.text = "";
                   viewModel.cancelSearch();
                 }, onSubmitted: (value) {
-                  viewModel.search(inputController.text);
+                  Loading.showLoading();
+                  viewModel.search(inputController.text).then((value) {
+                    Loading.dismissAll();
+                  });
                 }),
                 Expanded(child: Consumer<SearchViewModel>(
                   builder: (context, vm, child) {

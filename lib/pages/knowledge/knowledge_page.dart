@@ -5,6 +5,8 @@ import 'package:wan_android_flutter/pages/knowledge/detail/knowledge_detail_tab_
 import 'package:wan_android_flutter/pages/knowledge/knowledge_vm.dart';
 import 'package:wan_android_flutter/repository/datas/knowledge_data.dart';
 
+import '../../common_ui/loading.dart';
+
 class KnowledgePage extends StatefulWidget {
   const KnowledgePage({super.key});
 
@@ -20,7 +22,10 @@ class _KnowledgePageState extends State<KnowledgePage> {
   @override
   void initState() {
     super.initState();
-    viewModel.getKnowledgeList();
+    Loading.showLoading();
+    viewModel.getKnowledgeList().then((value){
+      Loading.dismissAll();
+    });
   }
 
   @override

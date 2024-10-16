@@ -5,6 +5,7 @@ import 'package:wan_android_flutter/pages/hot_key/hot_key_vm.dart';
 import 'package:wan_android_flutter/pages/search/search_page.dart';
 import 'package:wan_android_flutter/repository/datas/search_hot_keys_data.dart';
 
+import '../../common_ui/loading.dart';
 import '../../repository/datas/common_website_data.dart';
 
 class HotKeyPage extends StatefulWidget {
@@ -22,7 +23,10 @@ class _HotKeyPageState extends State<HotKeyPage> {
   @override
   void initState() {
     super.initState();
-    viewModel.initData();
+    Loading.showLoading();
+    viewModel.initData().then((value){
+      Loading.dismissAll();
+    });
   }
 
   @override

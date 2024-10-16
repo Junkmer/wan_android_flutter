@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:wan_android_flutter/repository/api.dart';
 
+import '../../common_ui/loading.dart';
 import '../../repository/datas/home_banner_data.dart';
 import '../../repository/datas/home_list_data.dart';
 
@@ -15,6 +16,7 @@ class HomeViewModel with ChangeNotifier {
   //执行 异步或处理耗时任务时，建议通过创建 Future函数 配合 async 关键字 调用
   ///获取首页 banner数据
   Future getBanner() async {
+    Loading.showLoading();
     List<HomeBannerData?>? list = await Api.instance.getBanner();
     bannerList = list ?? [];
     notifyListeners();
@@ -46,6 +48,7 @@ class HomeViewModel with ChangeNotifier {
       }
     }
     notifyListeners();
+    Loading.dismissAll();
     return listData?.isNotEmpty;
   }
 

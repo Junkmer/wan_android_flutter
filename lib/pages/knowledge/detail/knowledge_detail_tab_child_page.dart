@@ -6,6 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android_flutter/common_ui/SmartRefreshWidget.dart';
 import 'package:wan_android_flutter/pages/knowledge/detail/knowledge_detail_vm.dart';
 
+import '../../../common_ui/loading.dart';
 import '../../../repository/datas/knowledge_detail_list_data.dart';
 
 class KnowledgeDetailTabChildPage extends StatefulWidget {
@@ -26,7 +27,7 @@ class _KnowledgeDetailTabChildPageState extends State<KnowledgeDetailTabChildPag
   @override
   void initState() {
     super.initState();
-    viewModel.getKnowledgeDetailList(widget.cid, false);
+    Loading.showLoading();
     refreshOrLoad(false);
   }
 
@@ -39,6 +40,7 @@ class _KnowledgeDetailTabChildPageState extends State<KnowledgeDetailTabChildPag
       } else {
         refreshController.refreshCompleted(resetFooterState: true);
       }
+      Loading.dismissAll();
     });
   }
 

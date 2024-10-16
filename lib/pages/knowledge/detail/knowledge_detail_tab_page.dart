@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wan_android_flutter/common_ui/loading.dart';
 import 'package:wan_android_flutter/pages/knowledge/detail/knowledge_detail_tab_child_page.dart';
 import 'package:wan_android_flutter/pages/knowledge/detail/knowledge_detail_vm.dart';
 

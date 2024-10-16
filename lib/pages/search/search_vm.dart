@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:wan_android_flutter/repository/datas/search_data.dart';
 
+import '../../common_ui/loading.dart';
 import '../../repository/api.dart';
 
 class SearchViewModel extends ChangeNotifier {
@@ -10,11 +11,13 @@ class SearchViewModel extends ChangeNotifier {
   bool isOver = false;
 
   Future search(String? key) async {
+    Loading.showLoading();
     pageCount = 0;
     var data = await Api.instance.search(key, pageCount);
     listData = data?.datas ?? [];
     isOver = data?.over ?? false;
     notifyListeners();
+    Loading.dismissAll();
   }
 
   void cancelSearch() {
