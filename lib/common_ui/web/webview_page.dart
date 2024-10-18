@@ -10,7 +10,7 @@ class WebviewPage extends StatefulWidget {
       {super.key,
       required this.loadResource,
       required this.webViewType,
-      this.showTitle,
+      this.showTitle = true,
       this.title,
       this.jsChannelMap});
 

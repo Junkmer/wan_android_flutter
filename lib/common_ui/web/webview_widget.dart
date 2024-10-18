@@ -1,7 +1,8 @@
-import 'dart:nativewrappers/_internal/vm/lib/developer.dart';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:wan_android_flutter/common_ui/loading.dart';
 
 ///需要加载的内容类型
 enum WebViewType {
@@ -100,9 +101,15 @@ class _WebviewWidgetState extends State<WebviewWidget> {
         log("consoleMessage ===来自于js的打印=== \n $consoleMessage");
       },
       onProgressChanged: (InAppWebViewController controller, int progress) {},
-      onLoadStart: (InAppWebViewController controller, Uri? url) {},
-      onLoadError: (InAppWebViewController controller, Uri? url, int code, String message) {},
-      onLoadStop: (InAppWebViewController controller, Uri? url) {},
+      onLoadStart: (InAppWebViewController controller, Uri? url) {
+        Loading.showLoading(duration: const Duration(seconds: 45));
+      },
+      onLoadError: (InAppWebViewController controller, Uri? url, int code, String message) {
+        Loading.dismissAll();
+      },
+      onLoadStop: (InAppWebViewController controller, Uri? url) {
+        Loading.dismissAll();
+      },
       onPageCommitVisible: (InAppWebViewController controller, Uri? url) {},
     );
   }

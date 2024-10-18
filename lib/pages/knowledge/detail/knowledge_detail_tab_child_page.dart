@@ -7,6 +7,8 @@ import 'package:wan_android_flutter/common_ui/SmartRefreshWidget.dart';
 import 'package:wan_android_flutter/pages/knowledge/detail/knowledge_detail_vm.dart';
 
 import '../../../common_ui/loading.dart';
+import '../../../common_ui/web/webview_page.dart';
+import '../../../common_ui/web/webview_widget.dart';
 import '../../../repository/datas/knowledge_detail_list_data.dart';
 
 class KnowledgeDetailTabChildPage extends StatefulWidget {
@@ -76,39 +78,49 @@ class _KnowledgeDetailTabChildPageState extends State<KnowledgeDetailTabChildPag
   }
 
   Widget _item(KnowledgeDetailChildData? childData) {
-    return Container(
-      margin: EdgeInsets.only(left: 10.w, right: 10.w, top: 10.h),
-      padding: EdgeInsets.all(10.r),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 0.5.r),
-          borderRadius: BorderRadius.all(Radius.circular(5.r))),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return GestureDetector(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return WebviewPage(
+                title: childData?.title,
+                loadResource: childData?.link ?? "",
+                webViewType: WebViewType.URL);
+          }));
+        },
+        child: Container(
+          margin: EdgeInsets.only(left: 10.w, right: 10.w, top: 10.h),
+          padding: EdgeInsets.all(10.r),
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey, width: 0.5.r),
+              borderRadius: BorderRadius.all(Radius.circular(5.r))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(childData?.superChapterName ?? "",
-                  style:
-                      TextStyle(color: Colors.black, fontSize: 15.sp, fontWeight: FontWeight.bold)),
-              Text(childData?.niceDate ?? "",
-                  style: TextStyle(color: Colors.black, fontSize: 15.sp))
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(childData?.superChapterName ?? "",
+                      style: TextStyle(
+                          color: Colors.black, fontSize: 15.sp, fontWeight: FontWeight.bold)),
+                  Text(childData?.niceDate ?? "",
+                      style: TextStyle(color: Colors.black, fontSize: 15.sp))
+                ],
+              ),
+              SizedBox(height: 10.h),
+              Text("\t\t\t\t\t${childData?.title ?? ""}",
+                  style: TextStyle(color: Colors.black, fontSize: 14.sp)),
+              SizedBox(height: 10.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(childData?.chapterName ?? "",
+                      style: TextStyle(color: Colors.black, fontSize: 14.sp)),
+                  Text(childData?.author ?? "",
+                      style: TextStyle(color: Colors.black, fontSize: 15.sp))
+                ],
+              )
             ],
           ),
-          SizedBox(height: 10.h),
-          Text("\t\t\t\t\t${childData?.title ?? ""}",
-              style: TextStyle(color: Colors.black, fontSize: 14.sp)),
-          SizedBox(height: 10.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(childData?.chapterName ?? "",
-                  style: TextStyle(color: Colors.black, fontSize: 14.sp)),
-              Text(childData?.author ?? "", style: TextStyle(color: Colors.black, fontSize: 15.sp))
-            ],
-          )
-        ],
-      ),
-    );
+        ));
   }
 }

@@ -96,7 +96,9 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return WebviewPage(
-                      loadResource: vm.bannerList?[index]?.url ?? "", webViewType: WebViewType.URL);
+                      title: vm.bannerList?[index]?.title,
+                      loadResource: vm.bannerList?[index]?.url ?? "",
+                      webViewType: WebViewType.URL);
                 }));
               },
               child: Container(
@@ -144,7 +146,10 @@ class _HomePageState extends State<HomePage> {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return WebviewPage(loadResource: itemData?.link ?? "", webViewType: WebViewType.URL);
+          return WebviewPage(
+              title: itemData?.title,
+              loadResource: itemData?.link ?? "",
+              webViewType: WebViewType.URL);
         }));
         // Navigator.pushNamed(context, RoutePath.webView);
         // Navigator.pushNamed(context, RoutePath.webViewPage, arguments: {"name": "使用路由传值"});

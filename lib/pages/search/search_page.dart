@@ -7,6 +7,8 @@ import 'package:wan_android_flutter/pages/search/search_vm.dart';
 
 import '../../common_ui/SmartRefreshWidget.dart';
 import '../../common_ui/loading.dart';
+import '../../common_ui/web/webview_page.dart';
+import '../../common_ui/web/webview_widget.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key, this.content});
@@ -70,7 +72,14 @@ class _SearchPageState extends State<SearchPage> {
                       child: ListView.builder(
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          return _listItem(vm.listData?[index].title, onTap: () {});
+                          return _listItem(vm.listData?[index].title, onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) {
+                              return WebviewPage(
+                                  title: vm.listData?[index].title,
+                                  loadResource: vm.listData?[index].link ?? "",
+                                  webViewType: WebViewType.URL);
+                            }));
+                          });
                         },
                         itemCount: viewModel.listData?.length ?? 0,
                       ),

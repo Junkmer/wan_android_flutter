@@ -5,6 +5,8 @@ import 'package:wan_android_flutter/pages/hot_key/hot_key_vm.dart';
 import 'package:wan_android_flutter/pages/search/search_page.dart';
 import 'package:wan_android_flutter/repository/datas/search_hot_keys_data.dart';
 
+import '../../common_ui/web/webview_page.dart';
+import '../../common_ui/web/webview_widget.dart';
 import '../../common_ui/loading.dart';
 import '../../repository/datas/common_website_data.dart';
 
@@ -16,6 +18,8 @@ class HotKeyPage extends StatefulWidget {
     return _HotKeyPageState();
   }
 }
+
+typedef WebsiteClick = Function(String? title, String link);
 
 class _HotKeyPageState extends State<HotKeyPage> {
   HotKeyPageViewModel viewModel = HotKeyPageViewModel();
@@ -81,7 +85,12 @@ class _HotKeyPageState extends State<HotKeyPage> {
                 ),
                 //常用网站
                 Consumer<HotKeyPageViewModel>(builder: (context, vm, child) {
-                  return _gridView(true, websiteList: vm.websitelist, itemTop: (value) {});
+                  return _gridView(true, websiteList: vm.websitelist, websiteClick: (title, link) {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return WebviewPage(
+                          title: title, loadResource: link, webViewType: WebViewType.URL);
+                    }));
+                  });
                 }),
               ],
             ),
@@ -94,7 +103,8 @@ class _HotKeyPageState extends State<HotKeyPage> {
   Widget _gridView(bool? isWebsite,
       {List<CommonWebsiteData>? websiteList,
       List<SearchHotKeysData>? hotKeyList,
-      ValueChanged<String>? itemTop}) {
+      ValueChanged<String>? itemTop,
+      WebsiteClick? websiteClick}) {
     return Container(
         margin: EdgeInsets.only(top: 10.h, bottom: 10.h),
         padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -113,7 +123,9 @@ class _HotKeyPageState extends State<HotKeyPage> {
           itemBuilder: (context, index) {
             if (isWebsite == true) {
               return _item(
-                  name: websiteList?[index].name, itemTop: itemTop, link: websiteList?[index].link);
+                  name: websiteList?[index].name,
+                  websiteClick: websiteClick,
+                  link: websiteList?[index].link);
             } else {
               return _item(name: hotKeyList?[index].name, itemTop: itemTop);
             }
@@ -122,11 +134,12 @@ class _HotKeyPageState extends State<HotKeyPage> {
         ));
   }
 
-  Widget _item({String? name, ValueChanged<String>? itemTop, String? link}) {
+  Widget _item(
+      {String? name, ValueChanged<String>? itemTop, String? link, WebsiteClick? websiteClick}) {
     return GestureDetector(
         onTap: () {
           if (link != null) {
-            itemTop?.call(link);
+            websiteClick?.call(name, link);
           } else {
             itemTop?.call(name ?? "");
           }
