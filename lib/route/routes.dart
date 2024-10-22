@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wan_android_flutter/pages/auth/login_page.dart';
 import 'package:wan_android_flutter/pages/auth/register_page.dart';
+import 'package:wan_android_flutter/pages/my_collects/my_collects_page.dart';
 import 'package:wan_android_flutter/pages/tab_page.dart';
 
 //路由管理类
@@ -13,6 +14,8 @@ class Routes {
         return pageRoute(LoginPage(), settings: settings);
       case RoutePath.registerPage:
         return pageRoute(RegisterPage(), settings: settings);
+      case RoutePath.myCollectPage:
+        return pageRoute(MyCollectsPage());
     }
     return pageRoute(Scaffold(
       body: SafeArea(
@@ -51,4 +54,7 @@ class RoutePath {
 
   //register 页面
   static const String registerPage = "/register_page";
+
+  //文章收藏页面
+  static const String myCollectPage = "/my_collect_page";
 }

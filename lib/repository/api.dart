@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:wan_android_flutter/repository/datas/auth_data.dart';
+import 'package:wan_android_flutter/repository/datas/collect_list_data.dart';
 import 'package:wan_android_flutter/repository/datas/common_website_data.dart';
 import 'package:wan_android_flutter/repository/datas/knowledge_data.dart';
 import 'package:wan_android_flutter/repository/datas/search_hot_keys_data.dart';
@@ -108,6 +109,13 @@ class Api {
     Response response = await DioInstance.instance()
         .post(path: "article/query/$pageCount/json", queryParameters: {"k": key});
     var callbackData = SearchData.fromJson(response.data);
+    return callbackData;
+  }
+
+  ///收藏文章列表
+  Future<CollectListData?> getCollectList(int pageCount) async {
+    Response response = await DioInstance.instance().get(path: "lg/collect/list/$pageCount/json");
+    var callbackData = CollectListData.fromJson(response.data);
     return callbackData;
   }
 }

@@ -37,7 +37,9 @@ class _PersonalPageState extends State<PersonalPage> {
           return Column(
             children: [
               _header(vm.username ?? "未登录"),
-              _widgetTab("我的收藏", onTap: () {}),
+              _widgetTab("我的收藏", onTap: () {
+                Navigator.pushNamed(context, RoutePath.myCollectPage);
+              }),
               _widgetTab("检查更新", onTap: () {}),
               _widgetTab("关于我们", onTap: () {}),
               viewModel.isLogin

@@ -26,7 +26,7 @@ class PrintLogInterceptor extends InterceptorsWrapper {
     log("statusMessage:${response.statusMessage}");
     log("statusCode:${response.statusCode}");
     log("extra:${response.extra.toString()}");
-    log("data:${response.data}");
+    log("data:${response.data.toString()}");
     log("<------------response\n");
     super.onResponse(response, handler);
   }

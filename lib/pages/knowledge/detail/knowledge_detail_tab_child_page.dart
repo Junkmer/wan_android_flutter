@@ -49,32 +49,28 @@ class _KnowledgeDetailTabChildPageState extends State<KnowledgeDetailTabChildPag
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) {
-          return viewModel;
-        },
-        child: ChangeNotifierProvider(
-          create: (context) {
-            return viewModel;
-          },
-          child: Scaffold(
-            body: Consumer<KnowledgeDetailViewModel>(builder: (context, vm, child) {
-              return SmartRefreshWidget(
-                controller: refreshController,
-                onRefresh: () {
-                  refreshOrLoad(false);
-                },
-                onLoading: () {
-                  refreshOrLoad(true);
-                },
-                child: ListView.builder(
-                    itemCount: viewModel.detailChildList?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      return _item(viewModel.detailChildList?[index]);
-                    }),
-              );
-            }),
-          ),
-        ));
+      create: (context) {
+        return viewModel;
+      },
+      child: Scaffold(
+        body: Consumer<KnowledgeDetailViewModel>(builder: (context, vm, child) {
+          return SmartRefreshWidget(
+            controller: refreshController,
+            onRefresh: () {
+              refreshOrLoad(false);
+            },
+            onLoading: () {
+              refreshOrLoad(true);
+            },
+            child: ListView.builder(
+                itemCount: viewModel.detailChildList?.length ?? 0,
+                itemBuilder: (context, index) {
+                  return _item(viewModel.detailChildList?[index]);
+                }),
+          );
+        }),
+      ),
+    );
   }
 
   Widget _item(KnowledgeDetailChildData? childData) {
