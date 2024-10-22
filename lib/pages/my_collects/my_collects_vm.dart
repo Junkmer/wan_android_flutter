@@ -25,4 +25,13 @@ class MyCollectsViewModel with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  ///取消收藏
+  Future unCollect(num id, int index) async {
+    var value = await Api.instance.unCollect(id);
+    if (value == true) {
+      listData.removeAt(index);
+      notifyListeners();
+    }
+  }
 }

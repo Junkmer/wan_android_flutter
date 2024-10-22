@@ -118,4 +118,5 @@ class Api {
     var callbackData = CollectListData.fromJson(response.data);
     return callbackData;
   }
+
 }

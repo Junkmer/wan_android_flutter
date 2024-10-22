@@ -6,6 +6,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android_flutter/pages/my_collects/my_collects_vm.dart';
 import 'package:wan_android_flutter/repository/datas/collect_list_data.dart';
 
+import '../../common_ui/web/webview_page.dart';
+import '../../common_ui/web/webview_widget.dart';
+
 ///我的收藏页面
 class MyCollectsPage extends StatefulWidget {
   const MyCollectsPage({super.key});
@@ -54,16 +57,29 @@ class MyCollectsPageState extends State<MyCollectsPage> {
             },
             child: ListView.builder(
                 itemBuilder: (context, index) {
-                  return _listItem(itemData: vm.listData[index], onTap: () {});
+                  return _listItem(
+                      itemData: vm.listData[index],
+                      collectTap: () {
+                        vm.unCollect(vm.listData[index].id ?? 0, index);
+                      },
+                      itemClick: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return WebviewPage(
+                              title: vm.listData[index].title,
+                              loadResource: vm.listData[index].link ?? "",
+                              webViewType: WebViewType.URL);
+                        }));
+                      });
                 },
                 itemCount: vm.listData.length));
       })),
     ));
   }
 
-  Widget _listItem({CollectItemData? itemData, GestureTapCallback? onTap}) {
+  Widget _listItem(
+      {CollectItemData? itemData, GestureTapCallback? itemClick, GestureTapCallback? collectTap}) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: itemClick,
       child: Container(
         padding: EdgeInsets.all(10.r),
         margin: EdgeInsets.all(10.r),
@@ -77,19 +93,21 @@ class MyCollectsPageState extends State<MyCollectsPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [Text(itemData?.author ?? ""), Text("时间：${itemData?.niceDate}")]),
             SizedBox(height: 10.h),
-            Text("        ${itemData?.title ?? ""}", style: const TextStyle(fontWeight: FontWeight
-                .bold)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(itemData?.chapterName ?? ""),
-                Image.asset(
-                    "assets/images/collect_select"
-                    ".png",
-                    width: 25.w,
-                    height: 25.h)
-              ],
-            )
+            Text("        ${itemData?.title ?? ""}",
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            GestureDetector(
+                onTap: collectTap,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(itemData?.chapterName ?? ""),
+                    Image.asset(
+                        "assets/images/collect_select"
+                        ".png",
+                        width: 25.w,
+                        height: 25.h)
+                  ],
+                ))
           ],
         ),
       ),
