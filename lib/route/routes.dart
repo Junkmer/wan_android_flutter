@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wan_android_flutter/pages/about_us/about_us_page.dart';
 import 'package:wan_android_flutter/pages/auth/login_page.dart';
 import 'package:wan_android_flutter/pages/auth/register_page.dart';
 import 'package:wan_android_flutter/pages/my_collects/my_collects_page.dart';
@@ -16,6 +17,8 @@ class Routes {
         return pageRoute(RegisterPage(), settings: settings);
       case RoutePath.myCollectPage:
         return pageRoute(MyCollectsPage());
+      case RoutePath.aboutUsPage:
+        return pageRoute(AboutUsPage());
     }
     return pageRoute(Scaffold(
       body: SafeArea(
@@ -57,4 +60,7 @@ class RoutePath {
 
   //文章收藏页面
   static const String myCollectPage = "/my_collect_page";
+
+  //关于我们
+  static const String aboutUsPage = "/about_us_page";
 }

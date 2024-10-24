@@ -53,6 +53,8 @@ dependencies:
   flutter_html: ^3.0.0-alpha.6
   # webview：基于原生webview封装
   flutter_inappwebview: ^5.8.0
+  # 获取应用信息
+  package_info_plus: 7.0.0
 
 dev_dependencies:
   flutter_test:

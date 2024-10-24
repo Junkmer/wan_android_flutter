@@ -41,7 +41,9 @@ class _PersonalPageState extends State<PersonalPage> {
                 Navigator.pushNamed(context, RoutePath.myCollectPage);
               }),
               _widgetTab("检查更新", onTap: () {}),
-              _widgetTab("关于我们", onTap: () {}),
+              _widgetTab("关于我们", onTap: () {
+                Navigator.pushNamed(context, RoutePath.aboutUsPage);
+              }),
               viewModel.isLogin
                   ? _widgetTab("退出登录", onTap: () {
                       viewModel.logout().then((value) {
